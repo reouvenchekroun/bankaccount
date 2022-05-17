@@ -46,6 +46,13 @@ class BankOperationTest {
         assertEquals(expectedBalance, accountTest.getBalance());
     }
 
+    @ParameterizedTest
+    @ValueSource(doubles = {-10, 0})
+    void shouldNotWithdrawMoneyFromBalance_whenWithdrawalAmountIsInferiorOrEqualToZero(double amount){
+        assertThrows(IllegalArgumentException.class, () ->
+                accountTest.withdrawAmountOnAccount(amount));
+    }
+
     @Test
     void shouldNotWithdrawMoneyFromBalance_whenAmountIsSuperiorToBalance() {
         accountTest.depositAmountOnAccount(10);
