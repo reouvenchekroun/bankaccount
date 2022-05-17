@@ -39,6 +39,14 @@ public class BankAccount {
         addOperation(WITHDRAWAL, amount, balance);
     }
 
+    public String displayOperationHistory(){
+        StringBuilder operationsHistory = new StringBuilder();
+        for(BankOperation operation : operations) {
+            operationsHistory.append(operation.toString()).append("\n");
+        }
+        return operationsHistory.toString();
+    }
+
     private void checkIfBalanceIsSufficient(double amount) throws UnauthorizedWithrawalException {
         if(amount > balance) {
             throw new UnauthorizedWithrawalException("Withrawal amount " + amount + " is superior to account balance " + balance);
@@ -49,14 +57,6 @@ public class BankAccount {
         if(amount <= 0){
             throw new IllegalArgumentException("Deposit/withdrawal amount must be superior to zero");
         }
-    }
-
-    public String displayOperationHistory(){
-        StringBuilder operationsHistory = new StringBuilder();
-        for(BankOperation operation : operations) {
-            operationsHistory.append(operation.toString()).append("\n");
-        }
-        return operationsHistory.toString();
     }
 
     private void addOperation(BankOperationType type, double amount, double balanceAfterOperation) {
