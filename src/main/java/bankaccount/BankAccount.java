@@ -27,22 +27,25 @@ public class BankAccount {
     }
 
     public void depositAmountOnAccount(double amount){
-        checkAmountValue(amount);
+        checkIfAmountIsCorrect(amount);
         balance += amount;
         addOperation(DEPOSIT, amount, balance);
     }
 
     public void withdrawAmountOnAccount(double amount) throws UnauthorizedWithrawalException {
-        checkAmountValue(amount);
-        if(amount <= balance) {
-            balance -= amount;
-            addOperation(WITHDRAWAL, amount, balance);
-        }else{
+        checkIfAmountIsCorrect(amount);
+        checkIfBalanceIsSufficient(amount);
+        balance -= amount;
+        addOperation(WITHDRAWAL, amount, balance);
+    }
+
+    private void checkIfBalanceIsSufficient(double amount) throws UnauthorizedWithrawalException {
+        if(amount > balance) {
             throw new UnauthorizedWithrawalException("Withrawal amount " + amount + " is superior to account balance " + balance);
         }
     }
 
-    private void checkAmountValue(double amount) {
+    private void checkIfAmountIsCorrect(double amount) {
         if(amount <= 0){
             throw new IllegalArgumentException("Deposit/withdrawal amount must be superior to zero");
         }
